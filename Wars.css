@@ -5,7 +5,7 @@
 
 /* Parte de la barra de busqueda*/
 #cabecera{
-    width: 100%;
+    width: 95%;
     height: 80px;
     display: flex; /*coloca elementos en fila*/
     align-items: center; /* Pone elementos verticalmente*/
