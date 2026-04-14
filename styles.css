@@ -1,7 +1,7 @@
 /* Todo lo que tenga la clase oculto quedara oculto*/
-/*.oculto{
+.oculto{
     display: none;
-}*/
+}
 
 /* Parte de la barra de busqueda*/
 #cabecera{
