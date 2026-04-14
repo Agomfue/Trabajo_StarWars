@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Star Wars</title>
-    <link rel="stylesheet" href="Wars.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -29,7 +29,33 @@
             <form id="formularioPiloto">
                 <h2>Registro de pilotos</h2>
                 <a>Gestion del personal de combate</a>
+                <br>
+                <h3>Añadir nuevo piloto</h3>
+                Nombre
+                <input id="nombrePil" type="text" placeholder="Nombre" required>
+                <br>
+                Rango
+                <input id="rangoPil" type="text" placeholder="Rango" required>
+                <br>
+                Nave
+                <select id="select" type="text" required>
+                    <option>q</option>
+                </select>
+                
+                <br>
+                Victorias en combate
+                <input id="victoriasPil" type="number" required>
+                <br>
+                Estado
+                <select id="Estado" type="text" required>
+                    <option>2</option>
+                </select>
+                
+                <br>
+                <button id="agregar">Agregar</button>
             </form>
+
+            <ul id="lista"></ul>
         </section>
         <section id="misiones" class="oculto">
 
@@ -43,6 +69,6 @@
         <p>Que la fuerza te acompañe • Proyecto DAW 2026</p>
     </footer>
 
-    <script src="Star.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
