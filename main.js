@@ -50,24 +50,94 @@ let lista = document.getElementById("lista");
 document.getElementById("agregar").addEventListener("click", function(){
     if(nombre.value.trim() !==""){
         let li = document.createElement("li");
-        li.textContent = nombre.value + " - "
+
+        let span = document.createElement("span");/*el span luego podras cambiarlo por input*/
+        span.textContent = nombre.value + " - "
                         + rango.value + " - "
                         + nave.value + " - "
                         + victorias.value + " - "
                         + estado.value + " - ";
+        let botonEditar = document.createElement("button");
+        botonEditar.textContent = "Editar";
+
+        botonEditar.addEventListener("click", function(){
+            /*cambias el texto por un campo que se puede editar*/
+            let input = document.createElement("input");
+            input.type = "text";
+            input.value = span.textContent;
+
+            /*El span se convierte en un input*/
+            li.replaceChild(input, span);
+            input.focus();
+
+            botonEditar.textContent = "Guardar";
+            /*El texto se cambia y se convierte en el modificado*/
+            botonEditar.onclick = function(){
+                if(input.value.trim() !== ""){
+                    span.textContent = input.value;
+                    li.replaceChild(span, input);
+                    botonEditar.textContent = "Editar";
+                }
+            };
+
+        });
+
+        
         let botonEliminar = document.createElement("button");
         botonEliminar.textContent = "Eliminar";
 
         botonEliminar.addEventListener("click", function(){
         li.remove();
     });
-
+        /*Se añade todo al li*/
+        li.appendChild(span);
+        li.appendChild(document.createElement("br"));
+        li.appendChild(botonEditar);
         li.appendChild(botonEliminar);
+
+        /*Aqui el piloto se mostrara en pantalla*/
         lista.appendChild(li);
         
+        /*El formulario se limpiara para poder escribir un nuevo piploto*/
         nombre.value = "";
         rango.value = "";
         victorias.value = "";
         
     }
 });
+
+
+/*El select dinamico de naves*/
+/*Se necesita el array de naves completo*/
+let naves = [
+    { nombre: "X-Wing", tipo: "Caza" },
+    { nombre: "A-Wing", tipo: "Caza" },
+    { nombre: "Halcón Milenario", tipo: "Transporte" }
+];
+
+let selectNave = document.getElementById("select");
+/*Crea las opciones de dentro del select esto es la opcion de selecciona nave*/
+let opciones = "<option value=''>Selecciona nave</option>";
+
+/*El for lo que hace es recorrer el array completo*/
+for (let i = 0; i < naves.length; i++) {
+    opciones += "<option value='" + naves[i].nombre + "'>" + naves[i].nombre + "</option>";
+    /*Para cada nave se añade una nueva opcion*/
+}
+
+/*Mete todas las naves dentro del select
+El switch solo confirma que se eligio una nave y despues para*/
+selectNave.innerHTML = opciones;
+switch(nave.value) {
+    case "X-Wing":
+        console.log("Es un caza rápido");
+        break;
+
+    case "A-Wing":
+        console.log("Muy maniobrable");
+        break;
+
+    case "Halcón Milenario":
+        console.log("Transporte legendario");
+        break;
+}
