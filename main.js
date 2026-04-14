@@ -103,6 +103,7 @@ document.getElementById("agregar").addEventListener("click", function(){
         rango.value = "";
         victorias.value = "";
         
+        
     }
 });
 
