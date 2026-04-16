@@ -54,7 +54,7 @@ body {
 }
 
 #formularioPiloto {
-    background-color: gray;
+    background-color: dimgray;
     padding: 25;
     border-radius: 10px;
     width: 350;
@@ -65,7 +65,7 @@ body {
 
 #formularioPiloto h2,
 #formularioPiloto h3 {
-    color: gold;/*color del titulo
+    color: gold;/*color del titulo*/
     margin-bottom: 10px;/*espacio debajo del titulo*/
 }
 
@@ -102,7 +102,10 @@ body {
     border-radius: 8px;
     border-left: 4px solid gold;
     display: flex;/*organiza los elementos dentro del li*/
-    gap: 8px;/*espacios entre los pilotos*/
+    gap: 10px;/*espacios entre los pilotos*/
+    align-items: center;
+    color: white;
+    white-space: pre; /* mantiene los espacios */
 }
 
 #lista button {

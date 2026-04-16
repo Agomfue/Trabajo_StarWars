@@ -99,10 +99,10 @@ function pintarLista() {
         let li = document.createElement("li");
         //Muestra los datos del array
         li.textContent =
-            pilotosArray[i].nombre + " - " + 
-            pilotosArray[i].rango + " - " +
-            pilotosArray[i].nave + " - " +
-            pilotosArray[i].victorias + " - " +
+            pilotosArray[i].nombre + "  |  " + 
+            pilotosArray[i].rango + "  |  " +
+            pilotosArray[i].nave + "  |  " +
+            pilotosArray[i].victorias + "  |  " +
             pilotosArray[i].estado;
 
         let botonEliminar = document.createElement("button");
