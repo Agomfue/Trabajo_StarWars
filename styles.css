@@ -46,7 +46,72 @@ main{
     padding-top: 100px;/*para que el header no se quede debajo del main*/
 }
 
+/*Parte 2:Pilotos*/
+body {
+    background-color: black;
+    color: lightgray;/*color del texto*/
+    font-family: Arial;/*Cambia la letra a arial*/
+}
 
+#formularioPiloto {
+    background-color: gray;
+    padding: 25;
+    border-radius: 10px;
+    width: 350;
+    margin-bottom: 30px;/*espacio debajo del formulario*/
+    border: 1px solid gray;
+    box-shadow: 0 0 10px gold;/*brillo alrededor de los inputs*/
+}
+
+#formularioPiloto h2,
+#formularioPiloto h3 {
+    color: gold;/*color del titulo
+    margin-bottom: 10px;/*espacio debajo del titulo*/
+}
+
+#formularioPiloto a{
+    color: lightgray;
+    font-size: 14px;/*tamaño*/
+}
+
+#formularioPiloto input,
+#formularioPiloto select {
+    width: 95%;
+    padding: 10px;
+    margin: 8px 0 15px 0;/*espacio entre input*/
+    border-radius: 6px;
+    border: 1px solid grey;/*colores de los inputs*/
+    background-color: black;
+    color: white;
+}
+
+#formularioPiloto button {
+    width: 100%;
+    padding: 12px;
+    background-color: gold;
+    color: black;
+    border-radius: 6px;
+    cursor: pointer;/*el cursor cambiara a una mano al pasarlo por encima*/
+}
+
+#lista li {
+    list-style: none;/*quita los puntos de la lista*/
+    background-color: gray;
+    padding: 15px;
+    margin-bottom: 12px;/*espacio entre pilotos*/
+    border-radius: 8px;
+    border-left: 4px solid gold;
+    display: flex;/*organiza los elementos dentro del li*/
+    gap: 8px;/*espacios entre los pilotos*/
+}
+
+#lista button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
 /*Parte del footer*/
 footer{

@@ -9,6 +9,7 @@ const hangar = document.getElementById("hangar");
 const pilotos = document.getElementById("pilotos");
 const misiones = document.getElementById("misiones");
 const dashboard = document.getElementById("dashboard");
+let pilotosArray = [];
 
 /*Lo que hace es añadir la clase oculto a los elementos*/
 function ocultarTodo() {
@@ -39,7 +40,7 @@ dashboardEnl.addEventListener("click", function() {
 });
 
 
-/*Para crear el formulario*/
+/*Para crear el formulario de los pilotos*/
 let nombre = document.getElementById("nombrePil");
 let rango = document.getElementById("rangoPil");
 let nave = document.getElementById("select");
@@ -48,9 +49,38 @@ let estado = document.getElementById("Estado");
 let lista = document.getElementById("lista");
 
 document.getElementById("agregar").addEventListener("click", function(){
-    if(nombre.value.trim() !==""){
-        let li = document.createElement("li");
+    
+    let li = document.createElement("li");
+    /* Obliga que los numeros sean positivos ya que los numeros menores de 0
+    se tratan de un string y eso impide que entre y da la alerta*/
+    if (Number(victorias.value) <= 0) {
+        alert("Las victorias deben ser un número positivo");
+        return;
+    }
+    
+    if(nombre.value.trim() ==""){
+         alert("El nombre no puede estar vacío");
+        return;
+    }
+    else if(rango.value.trim() ==""){
+         alert("El rango no puede estar vacío");
+        return;
+    }
+    else if(victorias.value.trim() ==""){
+         alert("Las victorias no pueden estar vacias");
+        return;
+    }
+    // Crea los pilotos
+        let piloto = {
+            nombre: nombre.value,
+            rango: rango.value,
+            nave: nave.value,
+            victorias: victorias.value,
+            estado: estado.value
+        }
 
+        //Se guarda en el array
+        pilotosArray.push(piloto);
         let span = document.createElement("span");/*el span luego podras cambiarlo por input*/
         span.textContent = nombre.value + " - "
                         + rango.value + " - "
@@ -87,7 +117,11 @@ document.getElementById("agregar").addEventListener("click", function(){
         botonEliminar.textContent = "Eliminar";
 
         botonEliminar.addEventListener("click", function(){
-        li.remove();
+            /*Confirm muestra una ventana para aceptar o rechazar
+            si lo hace el piloto se borrara*/
+        if(confirm("¿Seguro que quiere borrar?")){
+            li.remove();
+        }
     });
         /*Se añade todo al li*/
         li.appendChild(span);
@@ -104,7 +138,7 @@ document.getElementById("agregar").addEventListener("click", function(){
         victorias.value = "";
         
         
-    }
+    
 });
 
 
@@ -139,6 +173,35 @@ switch(nave.value) {
         break;
 
     case "Halcón Milenario":
+        console.log("Transporte legendario");
+        break;
+}
+
+//Selecct de estado
+let estadoOp = [
+    {tipo: "Activo"},
+    {tipo: "Herido"},
+    {tipo: "KIA"}
+];
+
+let opcionesEs = "<option value=''>Pon el estado</option>";
+
+for (let i = 0; i < estadoOp.length; i++) {
+    opcionesEs += "<option value='" + estadoOp[i].tipo + "'>" + estadoOp[i].tipo + "</option>";
+    /*Para cada nave se añade una nueva opcion*/
+}
+
+estado.innerHTML = opcionesEs;
+switch(estado.value) {
+    case "Activo":
+        console.log("Es un caza rápido");
+        break;
+
+    case "Herido":
+        console.log("Muy maniobrable");
+        break;
+
+    case "KIA":
         console.log("Transporte legendario");
         break;
 }
