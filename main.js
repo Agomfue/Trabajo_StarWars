@@ -50,7 +50,6 @@ let lista = document.getElementById("lista");
 
 document.getElementById("agregar").addEventListener("click", function(){
     
-    let li = document.createElement("li");
     /* Obliga que los numeros sean positivos ya que los numeros menores de 0
     se tratan de un string y eso impide que entre y da la alerta*/
     if (Number(victorias.value) <= 0) {
@@ -62,11 +61,11 @@ document.getElementById("agregar").addEventListener("click", function(){
          alert("El nombre no puede estar vacío");
         return;
     }
-    else if(rango.value.trim() ==""){
+    if(rango.value.trim() ==""){
          alert("El rango no puede estar vacío");
         return;
     }
-    else if(victorias.value.trim() ==""){
+    if(victorias.value.trim() ==""){
          alert("Las victorias no pueden estar vacias");
         return;
     }
@@ -81,67 +80,73 @@ document.getElementById("agregar").addEventListener("click", function(){
 
         //Se guarda en el array
         pilotosArray.push(piloto);
-        let span = document.createElement("span");/*el span luego podras cambiarlo por input*/
-        span.textContent = nombre.value + " - "
-                        + rango.value + " - "
-                        + nave.value + " - "
-                        + victorias.value + " - "
-                        + estado.value + " - ";
-        let botonEditar = document.createElement("button");
-        botonEditar.textContent = "Editar";
 
-        botonEditar.addEventListener("click", function(){
-            /*cambias el texto por un campo que se puede editar*/
-            let input = document.createElement("input");
-            input.type = "text";
-            input.value = span.textContent;
-
-            /*El span se convierte en un input*/
-            li.replaceChild(input, span);
-            input.focus();
-
-            botonEditar.textContent = "Guardar";
-            /*El texto se cambia y se convierte en el modificado*/
-            botonEditar.onclick = function(){
-                if(input.value.trim() !== ""){
-                    span.textContent = input.value;
-                    li.replaceChild(span, input);
-                    botonEditar.textContent = "Editar";
-                }
-            };
-
-        });
-
-        
-        let botonEliminar = document.createElement("button");
-        botonEliminar.textContent = "Eliminar";
-
-        botonEliminar.addEventListener("click", function(){
-            /*Confirm muestra una ventana para aceptar o rechazar
-            si lo hace el piloto se borrara*/
-        if(confirm("¿Seguro que quiere borrar?")){
-            li.remove();
-        }
-    });
-        /*Se añade todo al li*/
-        li.appendChild(span);
-        li.appendChild(document.createElement("br"));
-        li.appendChild(botonEditar);
-        li.appendChild(botonEliminar);
-
-        /*Aqui el piloto se mostrara en pantalla*/
-        lista.appendChild(li);
+        //se usa la funcion para mostar los pilotos
+        pintarLista();
         
         /*El formulario se limpiara para poder escribir un nuevo piploto*/
         nombre.value = "";
         rango.value = "";
         victorias.value = "";
-        
-        
     
 });
 
+// Con esta funcion mostramos los pilotos
+function pintarLista() {
+    lista.innerHTML = ""; //Borra todo lo que hay en la lista para que no se dupliquen
 
+    for (let i = 0; i < pilotosArray.length; i++) {//Se recorre el array por pilotos
+        let li = document.createElement("li");
+        //Muestra los datos del array
+        li.textContent =
+            pilotosArray[i].nombre + " - " + 
+            pilotosArray[i].rango + " - " +
+            pilotosArray[i].nave + " - " +
+            pilotosArray[i].victorias + " - " +
+            pilotosArray[i].estado;
+
+        let botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "Eliminar";
+
+        botonEliminar.addEventListener("click", function(){
+            //Muestra la ventana emergente
+            if(confirm("¿Seguro que quiere borrar?")){
+                //Guarda en esta variable la posiscion exacta del piloto
+                let index = i;
+                //Borra el piloto del array y si no lo encuentra dara -1 por lo que no borrara nada
+                if(index !== -1){
+                    pilotosArray.splice(index, 1);//Borra elementos del array especificando posicion
+                }
+                li.remove();//quita el li de la pantalla
+                pintarLista();
+            }
+        });
+
+        let botonEditar = document.createElement("button");
+        botonEditar.textContent = "Editar";
+        botonEditar.addEventListener("click", function(){
+            //manda a rellenar los datos otra vez al formulario
+            //con los datos antiguos ya puesto
+            nombre.value = pilotosArray[i].nombre;
+            rango.value = pilotosArray[i].rango;
+            nave.value = pilotosArray[i].nave;
+            victorias.value = pilotosArray[i].victorias;
+            estado.value = pilotosArray[i].estado;
+
+            //Elimina un piloto sin editar del array de la posicion en la que este i
+            pilotosArray.splice(i, 1);
+
+            //se usa la funcion para mostar los pilotos
+            pintarLista();
+        });        
+
+        //añade los botones de eliminar y editar al li 
+        // metiendose dentro del piloto por lo que aparece al lado
+        li.appendChild(botonEditar);
+        li.appendChild(botonEliminar);
+        lista.appendChild(li);//Añade el li recien creado a la lista
+    }
+}
 /*El select dinamico de naves*/
 /*Se necesita el array de naves completo*/
 let naves = [
@@ -179,7 +184,7 @@ switch(nave.value) {
 
 //Selecct de estado
 let estadoOp = [
-    {tipo: "Activo"},
+    {tipo: "Activo"}, 
     {tipo: "Herido"},
     {tipo: "KIA"}
 ];
