@@ -10,7 +10,12 @@ const pilotos = document.getElementById("pilotos");
 const misiones = document.getElementById("misiones");
 const dashboard = document.getElementById("dashboard");
 let pilotosArray = [];
-
+/* Cargar pilotos guardados al iniciar */
+//si existe algo guardado como pilotos entre y 
+//convierte el texto con .parse en un array otra vez
+if (localStorage.getItem("pilotos")) {
+    pilotosArray = JSON.parse(localStorage.getItem("pilotos"));
+}
 /*Lo que hace es añadir la clase oculto a los elementos*/
 function ocultarTodo() {
     hangar.classList.add("oculto");
@@ -145,7 +150,13 @@ function pintarLista() {
         li.appendChild(botonEditar);
         li.appendChild(botonEliminar);
         lista.appendChild(li);//Añade el li recien creado a la lista
+        
     }
+    // Guardar siempre que se repinta
+    //setItem guarda cosas en el localStorage
+    //el localStorage solo puede guardar texto 
+    //JSON.stringify() convierte el array en JSON para poder guardar el texto
+    localStorage.setItem("pilotos", JSON.stringify(pilotosArray));
 }
 /*El select dinamico de naves*/
 /*Se necesita el array de naves completo*/
@@ -210,3 +221,5 @@ switch(estado.value) {
         console.log("Transporte legendario");
         break;
 }
+//Se pone para que al recargar los pilotos reaparezacan
+pintarLista();
