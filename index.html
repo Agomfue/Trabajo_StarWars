@@ -25,26 +25,21 @@
 
         </section>
         <section id="pilotos" class="oculto">
+            <h2>Registro de pilotos</h2>
+            <a>Gestion del personal de combate</a>
+            <br><br>
             <!-- Form sirve para poner los formularios-->
             <form id="formularioPiloto">
-                <h2>Registro de pilotos</h2>
-                <a>Gestion del personal de combate</a>
-                <br>
                 <h3>Añadir nuevo piloto</h3>
                 Nombre
                 <input id="nombrePil" type="text" placeholder="Nombre">
-                <br>
                 Rango
                 <input id="rangoPil" type="text" placeholder="Rango">
-                <br>
                 Nave
                 <select id="select" type="text">
                 </select>
-                
-                <br>
                 Victorias en combate
                 <input id="victoriasPil" type="number" min="1">
-                <br>
                 Estado
                 <select id="Estado" type="text">
                 </select>
@@ -52,11 +47,46 @@
                 <br>
                 <button type="button" id="agregar">Agregar</button>
             </form>
+            
+            <div id="encabezado-pilotos">
+                <span class="listaNombre">Nombre</span>
+                <span class="listaRango">Rango</span>
+                <span class="listaNave">Nave</span>
+                <span class="listaVictorias">Victorias</span>
+                <span class="listaEstado">Estado</span>
+                <span class="listaAcciones">Acciones</span>
+            </div>
 
             <ul id="lista"></ul>
         </section>
+        
         <section id="misiones" class="oculto">
+            <h2>Panel de misiones</h2>
+            <a>Tablero de operaciones</a>
+            <form id="formularioMisiones">
+                <h3>Nueva mision</h3>
+                Nombre de la mision
+                <input id="nombreMin" type="text" placeholder="Pon el nombre de la mision">
+                <br>
+                Piloto asignado
+                <select id="selectPil">
+                </select> 
+                <br>
+                Dificultad
+                <select id="selectDi"></select>
+                <br>
+                Fecha inicio
+                <!--Busca-->
+                <br>
+                Descripcion
+                <br>
+                <textarea>
 
+                </textarea>
+
+                <br>
+                <button type="button" id="crearMision"></button>
+            </form>
         </section>
         <section id="dashboard" class="oculto">
 

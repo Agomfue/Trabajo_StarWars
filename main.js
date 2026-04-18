@@ -1,5 +1,3 @@
-/*Se hara un inner html donde se modificar las opciones y luego seleccionarlas con un switch*/
-
 /*Para hacer que las secciones se oculten y aparezacan al hacer click*/
 const hangarEnl = document.getElementById("hangarEnl");
 const pilotosEnl = document.getElementById("pilotosEnl");
@@ -45,6 +43,7 @@ dashboardEnl.addEventListener("click", function() {
 });
 
 
+//PARTE DE LA SECCION 2
 /*Para crear el formulario de los pilotos*/
 let nombre = document.getElementById("nombrePil");
 let rango = document.getElementById("rangoPil");
@@ -87,28 +86,32 @@ document.getElementById("agregar").addEventListener("click", function(){
         pilotosArray.push(piloto);
 
         //se usa la funcion para mostar los pilotos
-        pintarLista();
+        anadidosLista();
         
         /*El formulario se limpiara para poder escribir un nuevo piploto*/
         nombre.value = "";
         rango.value = "";
         victorias.value = "";
+        estado.value = "";
+        nave.value = "";
     
 });
 
 // Con esta funcion mostramos los pilotos
-function pintarLista() {
+function anadidosLista() {
     lista.innerHTML = ""; //Borra todo lo que hay en la lista para que no se dupliquen
 
     for (let i = 0; i < pilotosArray.length; i++) {//Se recorre el array por pilotos
         let li = document.createElement("li");
         //Muestra los datos del array
-        li.textContent =
-            pilotosArray[i].nombre + "  |  " + 
-            pilotosArray[i].rango + "  |  " +
-            pilotosArray[i].nave + "  |  " +
-            pilotosArray[i].victorias + "  |  " +
-            pilotosArray[i].estado;
+        //crea span dentro y mete la listas
+        li.innerHTML = `
+            <span class="listaNombre">${pilotosArray[i].nombre}</span> 
+            <span class="listaRango">${pilotosArray[i].rango}</span>
+            <span class="listaNave">${pilotosArray[i].nave}</span>
+            <span class="listaVictorias">${pilotosArray[i].victorias}</span>
+            <span class="listaEstado">${pilotosArray[i].estado}</span>
+            <span class="acciones"></span>`;
 
         let botonEliminar = document.createElement("button");
         botonEliminar.textContent = "Eliminar";
@@ -123,7 +126,7 @@ function pintarLista() {
                     pilotosArray.splice(index, 1);//Borra elementos del array especificando posicion
                 }
                 li.remove();//quita el li de la pantalla
-                pintarLista();
+                anadidosLista();
             }
         });
 
@@ -142,13 +145,14 @@ function pintarLista() {
             pilotosArray.splice(i, 1);
 
             //se usa la funcion para mostar los pilotos
-            pintarLista();
+            anadidosLista();
         });        
 
         //añade los botones de eliminar y editar al li 
         // metiendose dentro del piloto por lo que aparece al lado
-        li.appendChild(botonEditar);
-        li.appendChild(botonEliminar);
+        let contenedorBotones = li.querySelector(".acciones");//busca dentro del span
+        contenedorBotones.appendChild(botonEditar);//mete los botones dentro del span
+        contenedorBotones.appendChild(botonEliminar);
         lista.appendChild(li);//Añade el li recien creado a la lista
         
     }
@@ -158,6 +162,7 @@ function pintarLista() {
     //JSON.stringify() convierte el array en JSON para poder guardar el texto
     localStorage.setItem("pilotos", JSON.stringify(pilotosArray));
 }
+/*Se hara un inner html donde se modificar las opciones y luego seleccionarlas con un switch*/
 /*El select dinamico de naves*/
 /*Se necesita el array de naves completo*/
 let naves = [
@@ -222,4 +227,6 @@ switch(estado.value) {
         break;
 }
 //Se pone para que al recargar los pilotos reaparezacan
-pintarLista();
+anadidosLista();
+
+//PARTE DE LA SECCION 3

@@ -1,39 +1,51 @@
+/*Parte general*/
+
+* {
+    box-sizing: border-box;/*hace que nada se salga del borde*/
+    margin: 0;/*quita los espacios de los navegadores*/
+    padding: 0;
+}
+
 /* Todo lo que tenga la clase oculto quedara oculto*/
-.oculto{
+.oculto {
     display: none;
 }
 
-/* Parte de la barra de busqueda*/
-#cabecera{
-    width: 95%;
+body {
+    background-color: black;
+    color: lightgray;/*color del texto*/
+    font-family: Arial;/*Cambia la letra a arial*/
+}
+
+/* Parte de la barra de busqueda */
+#cabecera {
+    width: 100%;
     height: 80px;
-    display: flex; /*coloca elementos en fila*/
-    align-items: center; /* Pone elementos verticalmente*/
-    justify-content: space-between; /*Titulo izquierda y menu derecha*/
-    padding: 0 30px; /*espacios intermedios*/
+    display: flex;/*coloca elementos en fila*/
+    align-items: center;/* Pone elementos verticalmente*/
+    justify-content: space-between;/*Titulo izquierda y menu derecha*/
+    padding: 0 30px;/*espacios intermedios*/
     background-color: black;/*color del fondo*/
     border-bottom: 2px solid gold;/*color debajo del borde junto con su estilo*/
+    position: fixed;/*pone el header arriba*/
     top: 0;/*coloca el header en la esquina izquierda*/
     left: 0;
     z-index: 1000;/*hace que el header quede por encima*/
 }
 
-#cabecera h1{
+#cabecera h1 {
     color: gold;
     font-size: 28px;/*tamaño*/
     letter-spacing: 2px;/*hace que las letras se separen*/
-    margin: 0;/*quita los margenes*/
 }
 
-nav ul{
+nav ul {
     list-style: none;/*quita los puntos de la lista*/
     display: flex;
     gap: 20px;/*espacio entre los botones*/
-    margin: 0;
-    padding: 0;
 }
 
-nav a{
+nav a {
     color: gold;
     text-decoration: none;/*quita los subrayados*/
     font-weight: bold;/*pone el texto en negrita*/
@@ -41,88 +53,120 @@ nav a{
     border-radius: 6px;/*redondea las esquinas*/
 }
 
-/*Parte intermedia*/
-main{
-    padding-top: 100px;/*para que el header no se quede debajo del main*/
+/*Parte principal*/
+main {
+    padding: 120px 30px 20px 30px;
 }
 
-/*Parte 2:Pilotos*/
-body {
-    background-color: black;
-    color: lightgray;/*color del texto*/
-    font-family: Arial;/*Cambia la letra a arial*/
+/*Seccion 2*/
+/*Formulario de pilotos*/
+#pilotos h2 {
+    color: gold; 
+    margin-bottom: 5px;
 }
+
+#pilotos a {
+    color: white;
+    text-decoration: none;
+}
+
 
 #formularioPiloto {
     background-color: dimgray;
-    padding: 25;
+    padding: 25px;
     border-radius: 10px;
-    width: 350;
-    margin-bottom: 30px;/*espacio debajo del formulario*/
+    width: 100%; /* Ahora ocupa el ancho disponible */
+    max-width: 900px; /* Pero no se estira infinitamente */
+    margin: 0 auto 30px auto; /*para centar el formulario */
     border: 1px solid gray;
     box-shadow: 0 0 10px gold;/*brillo alrededor de los inputs*/
+    display: grid;
+    grid-template-columns: 1fr 1fr; /*dividimos el formulario en dos columnas*/
+    gap: 10px 20px; /*El espacio entre filas y columnas*/
 }
 
+/*Hacemos que el titulo ocupe dos columnas*/
 #formularioPiloto h2,
-#formularioPiloto h3 {
-    color: gold;/*color del titulo*/
-    margin-bottom: 10px;/*espacio debajo del titulo*/
-}
-
-#formularioPiloto a{
-    color: lightgray;
-    font-size: 14px;/*tamaño*/
+#formularioPiloto h3,
+#formularioPiloto a {
+    grid-column: span 2;/*Hace que un elemento ocupe dos columnas*/ 
+    color: gold;
 }
 
 #formularioPiloto input,
 #formularioPiloto select {
-    width: 97%;
+    width: 100%;
     padding: 10px;
-    margin: 8px 0 15px 0;/*espacio entre input*/
-    border-radius: 6px;
-    border: 1px solid grey;/*colores de los inputs*/
+    border-radius: 6px;/*el borde de las esquinas se redondea*/
+    border: 1px solid grey;
     background-color: black;
     color: white;
+    margin-bottom: 10px;/*margenes entre botones*/
 }
 
 #formularioPiloto button {
-    width: 100%;
-    padding: 12px;
+    grid-column: span 2;/*divide el formulario en dos columnas*/
+    padding: 12px;/*espacio entre el texto y el boton*/
     background-color: gold;
     color: black;
-    border-radius: 6px;
-    cursor: pointer;/*el cursor cambiara a una mano al pasarlo por encima*/
+    border-radius: 6px;/*redondea las esquinas*/
+    font-weight: bold;
+    cursor: pointer;/*hace que el raton se sea una mano al pasar por encima de un boton*/
+    border: none;/*quita el borde de los navegadores*/
+    margin-top: 10px;
+}
+
+/*Lista de pilotos*/
+#lista {
+    padding: 0;
+    margin: 0;
+}
+
+#encabezado-pilotos, 
+#lista li {
+    display: grid;/*organiza los elementos dentro del li*/
+    grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr 160px;/*hace que haya 6 columnas con un ancho*/
+    gap: 15px;/*espacios entre los pilotos*/
+    align-items: center;
+    padding: 12px 20px;
+    width: 100%;
+}
+
+#encabezado-pilotos {
+    background-color: dimgray;
+    border-radius: 6px 6px 0 0;/*define las esquinas redondeadas*/
+    color: gold;
+    font-weight: bold;/*pone las letras en negrita*/
+    margin-bottom: 2px;
 }
 
 #lista li {
-    list-style: none;/*quita los puntos de la lista*/
-    background-color: gray;
-    padding: 15px;
-    margin-bottom: 12px;/*espacio entre pilotos*/
-    border-radius: 8px;
-    border-left: 4px solid gold;
-    display: flex;/*organiza los elementos dentro del li*/
-    gap: 10px;/*espacios entre los pilotos*/
-    align-items: center;
+    background-color: #333;
+    margin-bottom: 8px;/*pone espacios debajo de cada fila*/
+    border-radius: 0 0 8px 8px;
+    border-left: 5px solid gold;/*pone una linea dorada al lado de los pilotos*/
     color: white;
-    white-space: pre; /* mantiene los espacios */
+}
+
+.acciones {
+    display: flex;/*alinea bien los botones*/
+    gap: 8px;
 }
 
 #lista button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
+    padding: 6px 12px;/*pone el tamaño de los botones*/
+    border-radius: 5px;/*redondea las esquinas*/
     cursor: pointer;
-    font-weight: bold;
+    font-weight: bold;/*pone el texto en negrita*/
+    border: none;
 }
 
-/*Parte del footer*/
-footer{
+/*footer */
+footer {
     background-color: black;
     color: gold;
     text-align: center;/*texto centrado*/
     padding: 15px;
     margin-top: 40px;/*separa al footer del contenido*/
     border-top: 2px solid gold;/*color y estilo de la linea arriba del footer*/
-
 }
