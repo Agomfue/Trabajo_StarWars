@@ -7,6 +7,7 @@ const hangar = document.getElementById("hangar");
 const pilotos = document.getElementById("pilotos");
 const misiones = document.getElementById("misiones");
 const dashboard = document.getElementById("dashboard");
+//Array de los pilotos
 let pilotosArray = [];
 /* Cargar pilotos guardados al iniciar */
 //si existe algo guardado como pilotos entre y 
@@ -69,13 +70,10 @@ document.getElementById("agregar").addEventListener("click", function(){
          alert("El rango no puede estar vacío");
         return;
     }
-    if(victorias.value.trim() ==""){
-         alert("Las victorias no pueden estar vacias");
-        return;
-    }
     // Crea los pilotos
         let piloto = {
-            nombre: nombre.value,
+            id: Date.now(),//le agrega un id unico a cada piloto
+            nombre: nombre.value,//son las propiedades del piloto y su nombre
             rango: rango.value,
             nave: nave.value,
             victorias: victorias.value,
@@ -87,14 +85,12 @@ document.getElementById("agregar").addEventListener("click", function(){
 
         //se usa la funcion para mostar los pilotos
         anadidosLista();
-        
+        //Se llama a la funcion para que aparezcan las nuevos pilotos
+        recogerPilotos();
         /*El formulario se limpiara para poder escribir un nuevo piploto*/
         nombre.value = "";
         rango.value = "";
         victorias.value = "";
-        estado.value = "";
-        nave.value = "";
-    
 });
 
 // Con esta funcion mostramos los pilotos
@@ -146,6 +142,8 @@ function anadidosLista() {
 
             //se usa la funcion para mostar los pilotos
             anadidosLista();
+            //Se llama a la funcion para que actualice las opciones de piloto
+            recogerPilotos();
         });        
 
         //añade los botones de eliminar y editar al li 
@@ -215,18 +213,195 @@ for (let i = 0; i < estadoOp.length; i++) {
 estado.innerHTML = opcionesEs;
 switch(estado.value) {
     case "Activo":
-        console.log("Es un caza rápido");
+        console.log("activa");
         break;
 
     case "Herido":
-        console.log("Muy maniobrable");
+        console.log("herida");
         break;
 
     case "KIA":
-        console.log("Transporte legendario");
+        console.log("fallecida");
         break;
 }
 //Se pone para que al recargar los pilotos reaparezacan
 anadidosLista();
 
 //PARTE DE LA SECCION 3
+let nombreMin = document.getElementById("nombreMin");
+let selectPil = document.getElementById("selectPil");
+let selectDi = document.getElementById("selectDi");
+let fechaMision = document.getElementById("fechaMision");
+let descripcionMin = document.getElementById("descripcionMin");
+let crearMision = document.getElementById("crearMision");
+let filtroDificultad = document.getElementById("filtroDificultad");
+//Array de las misiones
+let misionesArray = [];
+//si existe algo guardado como pilotos entre y 
+//convierte el texto con .parse en un array otra vez
+if (localStorage.getItem("misiones")) {
+    misionesArray = JSON.parse(localStorage.getItem("misiones"));
+}
+recogerPilotos();
+misionesActivas();
+//--------Formulario
+//Selct dificultad
+let dificiltades = ["Facil", "Media", "Dificil", "Suicida"];
+//Se crea la opcion predeterminada siendo primero un texto que se mete dentro del select
+let opcionesDi = "<option value=''>Selecciona la dificultad</option>";
+
+//Un for que recorre todo el array para que aparezcan todas lo de dentro como opciones
+for(let i = 0; i < dificiltades.length; i++){
+    //Las opciones se van acumalando para que no se sobreescriba
+    //lo demas crea la etiqueta option y con el [i] accede a cada elemeto del array
+    opcionesDi += "<option value='" + dificiltades[i] + "'>" + dificiltades[i] + "</option>";
+}
+
+
+//inserta todo toda las opciones en el select
+selectDi.innerHTML = opcionesDi;
+
+//select de pilotos
+function recogerPilotos(){
+    let opcionesPil = "<option value=''>Selecciona piloto</option>";
+
+    for(let i = 0; i < pilotosArray.length; i++){
+        //Si el piloto esta activo aparecera como opcion
+        if(pilotosArray[i].estado === "Activo"){
+            opcionesPil += "<option value='" + pilotosArray[i].id + "'>" + pilotosArray[i].nombre + "</option>";
+        }
+}
+//Mete en el select las opciones
+selectPil.innerHTML = opcionesPil;
+}
+
+//Hacer funcionar el boton de crear mision
+crearMision.addEventListener("click", function(){
+    //Comprobacion de de campos vacios
+    if(nombreMin.value.trim() === "" || selectPil.value === "" || selectDi.value === "" || fechaMision.value === "" || descripcionMin.value.trim() === ""){
+        //aviso que esta mal
+        alert("Es necesario rellenar todos los campas")
+        //termina
+        return;
+    }
+
+    let mision = {
+        id: Date.now(),//Le da un id unico a cada mision
+        nombre: nombreMin.value,
+        pilotoId: Number(selectPil.value),//Guarda el id del piloto y lo convierte a texto
+        dificultad: selectDi.value,
+        fecha: fechaMision.value,
+        descripcion: descripcionMin.value,
+        estado: "Pendiente"//todas las misiones empezaran en pendiente
+    };
+    //Se añaden las misiones al array
+    misionesArray.push(mision);
+    //se convierte el array a texto y se guarda en el navegador
+    localStorage.setItem("misiones", JSON.stringify(misionesArray));
+    //Se muestran las misiones
+    misionesActivas();
+    //Se limpia el formulario
+    nombreMin.value = "";
+    selectPil.value = "";
+    selectDi.value = "";
+    fechaMision.value = "";
+    descripcionMin.value = "";
+});
+
+//Se llama a la funcion para que aparezcan las opciones
+recogerPilotos();
+
+let listaMisiones = document.getElementById("listaMisiones");
+function misionesActivas() {
+    listaMisiones.innerHTML = "";
+    let filtro = filtroDificultad.value;
+
+    for (let i = 0; i < misionesArray.length; i++) {
+        if (filtro !== "" && misionesArray[i].dificultad !== filtro) {
+            continue; //salta esa mision
+        }
+
+        let li = document.createElement("li");
+
+        li.innerHTML = 
+            `<span>${misionesArray[i].nombre}</span>
+            <span>${misionesArray[i].dificultad}</span>
+            <span>${misionesArray[i].fecha}</span>
+            <span>${misionesArray[i].estado}</span>
+            <span class="acciones"></span>`;
+
+        let contenedorBotones = li.querySelector(".acciones");
+
+        //Boton de eliminar
+        let botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "Eliminar";
+
+        botonEliminar.addEventListener("click", function () {
+            if (confirm("¿Seguro que quieres eliminar esta misión?")) {
+                //borrar del array
+                misionesArray.splice(i, 1);
+                //actualizar localStorage
+                localStorage.setItem("misiones", JSON.stringify(misionesArray));
+                //se muestra la lista
+                misionesActivas();
+                //actualiza el numero de misiones
+                numeroMin();
+            }
+        });
+
+        //Boton para mover de columna
+        let botonAvanzar = document.createElement("button");
+        botonAvanzar.textContent = "avanzar";
+
+        botonAvanzar.addEventListener("click", function () {
+
+            if (misionesArray[i].estado === "Pendiente") {
+                misionesArray[i].estado = "En curso";
+            } 
+            else if (misionesArray[i].estado === "En curso") {
+                misionesArray[i].estado = "Completada";
+            }
+
+            localStorage.setItem("misiones", JSON.stringify(misionesArray));
+            misionesActivas();
+            numeroMin();
+        });
+
+        //se mete el boton de eliminar en acciones
+        contenedorBotones.appendChild(botonAvanzar);
+        contenedorBotones.appendChild(botonEliminar);
+
+        //se añade a la lista
+        listaMisiones.appendChild(li);
+    }
+}
+
+//filtro
+filtroDificultad.addEventListener("change", function () {
+    misionesActivas(); //se vuelve a poner todo con el filtro
+});
+
+//contador de cuantas misiones hay
+function numeroMin() {
+    let pen = 0;
+    let cur = 0;
+    let com = 0;
+
+    for (let i = 0; i < misionesArray.length; i++) {
+        if (misionesArray[i].estado === "Pendiente") {
+            pen++;
+        } 
+        else if (misionesArray[i].estado === "En curso") {
+            cur++;
+        } 
+        else if (misionesArray[i].estado === "Completada") {
+            com++;
+        }
+    }
+
+    document.getElementById("contadorPen").textContent = pen;
+    document.getElementById("contadorCur").textContent = cur;
+    document.getElementById("contadorCom").textContent = com;
+}
+misionesActivas();
+numeroMin();
