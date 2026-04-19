@@ -116,10 +116,10 @@ function anadidosLista() {
             //Muestra la ventana emergente
             if(confirm("¿Seguro que quiere borrar?")){
                 //Guarda en esta variable la posiscion exacta del piloto
-                let index = i;
+                let pos = i;
                 //Borra el piloto del array y si no lo encuentra dara -1 por lo que no borrara nada
-                if(index !== -1){
-                    pilotosArray.splice(index, 1);//Borra elementos del array especificando posicion
+                if(pos !== -1){
+                    pilotosArray.splice(pos, 1);//Borra elementos del array especificando posicion
                 }
                 li.remove();//quita el li de la pantalla
                 anadidosLista();
@@ -197,11 +197,7 @@ switch(nave.value) {
 }
 
 //Selecct de estado
-let estadoOp = [
-    {tipo: "Activo"}, 
-    {tipo: "Herido"},
-    {tipo: "KIA"}
-];
+let estadoOp = [{tipo: "Activo"}, {tipo: "Herido"},{tipo: "KIA"}];
 
 let opcionesEs = "<option value=''>Pon el estado</option>";
 
@@ -230,11 +226,12 @@ anadidosLista();
 //PARTE DE LA SECCION 3
 let nombreMin = document.getElementById("nombreMin");
 let selectPil = document.getElementById("selectPil");
-let selectDi = document.getElementById("selectDi");
 let fechaMision = document.getElementById("fechaMision");
 let descripcionMin = document.getElementById("descripcionMin");
 let crearMision = document.getElementById("crearMision");
 let filtroDificultad = document.getElementById("filtroDificultad");
+let selectDi = document.getElementById("selectDi");
+let opcionesDi = "<option value=''>Selecciona la dificultad</option>";
 //Array de las misiones
 let misionesArray = [];
 //si existe algo guardado como pilotos entre y 
@@ -242,24 +239,8 @@ let misionesArray = [];
 if (localStorage.getItem("misiones")) {
     misionesArray = JSON.parse(localStorage.getItem("misiones"));
 }
-recogerPilotos();
-misionesActivas();
+anadidosLista();
 //--------Formulario
-//Selct dificultad
-let dificiltades = ["Facil", "Media", "Dificil", "Suicida"];
-//Se crea la opcion predeterminada siendo primero un texto que se mete dentro del select
-let opcionesDi = "<option value=''>Selecciona la dificultad</option>";
-
-//Un for que recorre todo el array para que aparezcan todas lo de dentro como opciones
-for(let i = 0; i < dificiltades.length; i++){
-    //Las opciones se van acumalando para que no se sobreescriba
-    //lo demas crea la etiqueta option y con el [i] accede a cada elemeto del array
-    opcionesDi += "<option value='" + dificiltades[i] + "'>" + dificiltades[i] + "</option>";
-}
-
-
-//inserta todo toda las opciones en el select
-selectDi.innerHTML = opcionesDi;
 
 //select de pilotos
 function recogerPilotos(){
@@ -311,27 +292,33 @@ crearMision.addEventListener("click", function(){
 //Se llama a la funcion para que aparezcan las opciones
 recogerPilotos();
 
-let listaMisiones = document.getElementById("listaMisiones");
 function misionesActivas() {
-    listaMisiones.innerHTML = "";
+
+    //limpiamos las listas
+    document.getElementById("listPen").innerHTML = "";
+    document.getElementById("lisCur").innerHTML = "";
+    document.getElementById("lisCom").innerHTML = "";
     let filtro = filtroDificultad.value;
 
     for (let i = 0; i < misionesArray.length; i++) {
-        if (filtro !== "" && misionesArray[i].dificultad !== filtro) {
+        if (filtro !== "Todas" && filtro !== "" && misionesArray[i].dificultad !== filtro) {
             continue; //salta esa mision
         }
 
-        let li = document.createElement("li");
+        let tarjetitas = document.createElement("div");
 
-        li.innerHTML = 
+        //Se insertan valores dentro del array
+        tarjetitas.innerHTML = 
             `<span>${misionesArray[i].nombre}</span>
             <span>${misionesArray[i].dificultad}</span>
             <span>${misionesArray[i].fecha}</span>
             <span>${misionesArray[i].estado}</span>
-            <span class="acciones"></span>`;
+            <div class="acciones"></div>`;
 
-        let contenedorBotones = li.querySelector(".acciones");
+        //busca los elementos de acciones
+        let contenedorBotones = tarjetitas.querySelector(".acciones");
 
+        let posicion = i;
         //Boton de eliminar
         let botonEliminar = document.createElement("button");
         botonEliminar.textContent = "Eliminar";
@@ -339,7 +326,7 @@ function misionesActivas() {
         botonEliminar.addEventListener("click", function () {
             if (confirm("¿Seguro que quieres eliminar esta misión?")) {
                 //borrar del array
-                misionesArray.splice(i, 1);
+                misionesArray.splice(posicion, 1);
                 //actualizar localStorage
                 localStorage.setItem("misiones", JSON.stringify(misionesArray));
                 //se muestra la lista
@@ -355,11 +342,11 @@ function misionesActivas() {
 
         botonAvanzar.addEventListener("click", function () {
 
-            if (misionesArray[i].estado === "Pendiente") {
-                misionesArray[i].estado = "En curso";
+            if (misionesArray[posicion].estado === "Pendiente") {
+                misionesArray[posicion].estado = "En curso";
             } 
-            else if (misionesArray[i].estado === "En curso") {
-                misionesArray[i].estado = "Completada";
+            else if (misionesArray[posicion].estado === "En curso") {
+                misionesArray[posicion].estado = "Completada";
             }
 
             localStorage.setItem("misiones", JSON.stringify(misionesArray));
@@ -372,7 +359,15 @@ function misionesActivas() {
         contenedorBotones.appendChild(botonEliminar);
 
         //se añade a la lista
-        listaMisiones.appendChild(li);
+        if (misionesArray[i].estado === "Pendiente") {
+            document.getElementById("listPen").appendChild(tarjetitas);
+        }
+        else if (misionesArray[i].estado === "En curso") {
+            document.getElementById("lisCur").appendChild(tarjetitas);
+        }
+        else if (misionesArray[i].estado === "Completada") {
+            document.getElementById("lisCom").appendChild(tarjetitas);
+        }
     }
 }
 
@@ -387,6 +382,7 @@ function numeroMin() {
     let cur = 0;
     let com = 0;
 
+    //for para aumentar los contadores
     for (let i = 0; i < misionesArray.length; i++) {
         if (misionesArray[i].estado === "Pendiente") {
             pen++;
@@ -403,5 +399,43 @@ function numeroMin() {
     document.getElementById("contadorCur").textContent = cur;
     document.getElementById("contadorCom").textContent = com;
 }
+
+//Selct dificultad
+let dificultades = [
+    {tipo: "Facil"}, 
+    {tipo: "Media"},
+    {tipo: "Dificil"},
+    {tipo: "Suicida"}
+];
+//Se crea la opcion predeterminada siendo primero un texto que se mete dentro del select
+
+//Un for que recorre todo el array para que aparezcan todas lo de dentro como opciones
+for (let i = 0; i < dificultades.length; i++) {
+    //Las opciones se van acumalando para que no se sobreescriba
+    //lo demas crea la etiqueta option y con el [i] accede a cada elemeto del array
+    opcionesDi += "<option value='" + dificultades[i].tipo + "'>" + dificultades[i].tipo + "</option>";
+}
+
+//inserta todo toda las opciones en el select
+selectDi.innerHTML = opcionesDi;
+
+switch(selectDi.value) {
+    case "Facil":
+        console.log("mision facil");
+        break;
+
+    case "Media":
+        console.log("mision media");
+        break;
+
+    case "Dificil":
+        console.log("mision dificil");
+        break;
+
+    case "Suicida":
+        console.log("mision suicida");
+        break;
+}
+
 misionesActivas();
 numeroMin();
