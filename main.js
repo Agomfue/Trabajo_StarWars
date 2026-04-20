@@ -555,13 +555,15 @@ function actualizarDashboard() {
     let destruidas = 0;
 
     for (let i = 0; i < navesHangar.length; i++) {
-        if (navesHangar[i].estado === "Operativa") {
+        let estadoActual = navesHangar[i].estado.toLowerCase();
+
+        if (navesHangar[i].estado === "operativa") {
             operativas++;
         }
-        else if (navesHangar[i].estado === "En reparación") {
+        else if (navesHangar[i].estado === "en reparación") {
             reparacion++;
         }
-        else if (navesHangar[i].estado === "Destruida") {
+        else if (navesHangar[i].estado === "destruida") {
             destruidas++;
         }
     }
