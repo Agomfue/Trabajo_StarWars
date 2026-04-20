@@ -82,33 +82,30 @@ function cargarTipos() {
 
     // Generamos las opciones del select
 
-/* Recorre el array de tipos únicos para crear las etiquetas de opción del selector */
+    /* Recorre el array de tipos únicos para crear las etiquetas de opción del selector */
     tiposSinDuplicados.forEach(tipo => {
         /* Crea un string HTML <option>. charAt(0).toUpperCase() pone la primera letra en mayúscula para que quede mejor visualmente */
         opciones += `<option value="${tipo}">${tipo.charAt(0).toUpperCase() + tipo.slice(1)}</option>`;
     });
-
-    /* Inserta todas las opciones generadas dentro del elemento HTML del select de filtrado */
+     /* Inserta todas las opciones generadas dentro del elemento HTML del select de filtrado */
     filtroTipo.innerHTML = opciones;
 }
 
 /* Función encargada de renderizar las naves en la página según los filtros aplicados */
 function mostrarNaves() {
-    /* Limpia el contenedor de la lista de naves para que no se dupliquen al filtrar o buscar */
+     /* Limpia el contenedor de la lista de naves para que no se dupliquen al filtrar o buscar */
     listaNaves.innerHTML = "";
 
     /* Obtiene el texto del buscador (en minúsculas para que no importe si el usuario usa Mayúsculas) */
     let texto = buscarNave.value.toLowerCase();
-    
     /* Obtiene el tipo de nave seleccionado en el menú desplegable */
     let tipoSeleccionado = filtroTipo.value;
-    
     /* Variable para llevar la cuenta de cuántas naves cumplen los requisitos del filtro */
     let total = 0;
 
     /* Bucle que recorre toda la base de datos de naves (array navesHangar) */
     for (let i = 0; i < navesHangar.length; i++) {
-        /* Guarda la nave actual en una variable para facilitar el acceso a sus propiedades */
+         /* Guarda la nave actual en una variable para facilitar el acceso a sus propiedades */
         let nave = navesHangar[i];
 
         /* Condicional de filtrado: comprueba si el nombre incluye el texto buscado Y si el tipo coincide (o está en 'Todos') */
@@ -118,9 +115,9 @@ function mostrarNaves() {
         ) {
             /* Crea un nuevo elemento div en memoria para representar la tarjeta de la nave */
             let div = document.createElement("div");
-            
+
             /* Asigna una clase CSS al div para que tome los estilos definidos en Style.css */
-            div.className = "tarjeta-nave"; 
+            div.className = "tarjeta-nave"; // Clase para darle estilo en CSS
 
             /* Define el contenido interno del div usando Template Literals para insertar los datos de la nave */
             div.innerHTML = `
@@ -135,7 +132,7 @@ function mostrarNaves() {
 
             /* Añade el div recién creado al contenedor principal de la lista en el HTML */
             listaNaves.appendChild(div);
-            
+
             /* Incrementa el contador de naves visibles */
             total++;
         }
@@ -144,6 +141,7 @@ function mostrarNaves() {
     /* Actualiza el texto del contador en la pantalla para informar al usuario cuántas naves se están mostrando */
     contador.textContent = "Mostrando " + total + " naves";
 }
+
 // --- Eventos ---
 
 // Buscador en tiempo real
@@ -561,12 +559,10 @@ numeroMin();
 
 
 //PARTE DE LA SECCION 4
-
-
 //* Función que calcula y actualiza todas las estadísticas generales en la interfaz */
 function actualizarDashboard() {
 
-    /* ESTADÍSTICAS DE NAVES */
+    // -------- NAVES --------
 
     /* Muestra la cantidad total de naves contando el tamaño del array navesHangar */
     document.getElementById("totalNaves").textContent =
@@ -601,7 +597,7 @@ function actualizarDashboard() {
         " | Destruidas: " + destruidas;
 
 
-    /* ESTADÍSTICAS DE PILOTOS /
+    // -------- PILOTOS --------
 
     /* Muestra el total de pilotos registrados en la aplicación */
     document.getElementById("totalPilotos").textContent =
@@ -610,7 +606,7 @@ function actualizarDashboard() {
     /* Inicializa contadores para los estados de salud/disponibilidad de los pilotos */
     let activos = 0;
     let heridos = 0;
-    let kia = 0; /* KIA = Killed in Action (Fallecido) */
+    let kia = 0;/*Fallecido*/
 
     /* Recorre el array de pilotos y aumenta los contadores según su estado */
     for (let i = 0; i < pilotosArray.length; i++) {
@@ -632,7 +628,7 @@ function actualizarDashboard() {
         " | KIA: " + kia;
 
 
-    /* ESTADÍSTICAS DE MISIONES */
+    // -------- MISIONES --------
 
     /* Muestra cuántas misiones existen en total en el sistema */
     document.getElementById("totalMisiones").textContent =
@@ -663,7 +659,7 @@ function actualizarDashboard() {
         " | Completadas: " + completadas;
 
 
-    /* CÁLCULO DEL MEJOR PILOTO */
+    // -------- MEJOR PILOTO --------
 
     /* Asume inicialmente que el primer piloto es el mejor para empezar a comparar */
     let mejor = pilotosArray[0];
@@ -686,7 +682,7 @@ function actualizarDashboard() {
     }
 
 
-    /* CÁLCULO DE LA NAVE MÁS RÁPIDA */
+    // -------- NAVE MÁS RÁPIDA --------
 
     /* Aplica la misma lógica de comparación pero usando la propiedad 'velocidad' de las naves */
     let rapida = navesHangar[0];
@@ -702,7 +698,7 @@ function actualizarDashboard() {
         rapida.nombre + " - " + rapida.velocidad + " megaluz";
 
 
-    /* BARRA DE PROGRESO DE MISIONES */
+    // -------- BARRA DE PROGRESO --------
 
     /* Variable para guardar el resultado del cálculo matemático del porcentaje */
     let porcentaje = 0;
@@ -722,6 +718,5 @@ function actualizarDashboard() {
     document.getElementById("porcentajeMisiones").textContent =
         Math.round(porcentaje) + "% completado";
 }
-
 /* Ejecuta la función al cargar el script para que el dashboard no aparezca vacío al inicio */
 actualizarDashboard();
