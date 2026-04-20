@@ -58,6 +58,66 @@ main {
     padding: 120px 30px 20px 30px;
 }
 
+/*Seccion 1*/
+/*Cuadro*/
+/* Contenedor principal de las naves */
+#listaNaves {
+    display: grid;
+    /* Crea cuadrícula automática de mínimo 250px por tarjeta */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Estilo de cada tarjeta */
+.tarjeta-nave {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    border: 2px solid #444;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column; /* Alinea elementos en vertical */
+    justify-content: space-between;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.tarjeta-nave:hover {
+    transform: translateY(-5px);
+    border-color: #f0ad4e; /* Color rebelde al pasar el ratón */
+}
+
+/* La información encima */
+.tarjeta-nave h3 {
+    margin-top: 0;
+    color: #f0ad4e;
+    font-size: 1.4rem;
+}
+
+.tarjeta-nave p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+/* La foto abajo */
+.tarjeta-nave img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover; /* Evita que la imagen se deforme */
+    border-radius: 5px;
+    margin-top: 15px;
+    order: 2; /* Asegura que vaya al final si usas flex */
+}
+
+/* Estilo para los estados */
+.tarjeta-nave hr {
+    border: 0;
+    border-top: 1px solid #333;
+    margin: 10px 0;
+}
+
+
 /*Seccion 2*/
 /*Formulario de pilotos*/
 #pilotos h2 {
@@ -325,7 +385,7 @@ main {
 #barraFondo {
     width: 100%;
     height: 25px;
-    background-color: black;
+    background-color: #444;
     border-radius: 20px;
     overflow: hidden;
     margin-top: 10px;

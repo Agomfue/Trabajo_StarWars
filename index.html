@@ -25,21 +25,18 @@
             <h2>Hangar de naves</h2>
             <p>Catálogo de la Alianza Rebelde</p>
 
-            <!-- buscador -->
-            <input type="text" id="buscarNave" placeholder="Buscar nave">
+            <div class="controles-hangar">
+                <input type="text" id="buscarNave" placeholder="Buscar nave">
 
-            <!-- filtro por tipo -->
-            <select id="filtroTipo">
-                <option value="">Todos los tipos</option>
-            </select>
+                <select id="filtroTipo">
+                    <option value="">Todos los tipos</option>
+                </select>
 
-            <!-- botón ordenar -->
-            <button id="ordenarBtn">Ordenar velocidad</button>
+                <button id="ordenarBtn">Ordenar velocidad</button>
+            </div>
 
-            <!-- contador -->
             <p id="contador">Mostrando 0 naves</p>
 
-            <!-- aquí aparecerán las tarjetas -->
             <div id="listaNaves"></div>
         </section>
         <section id="pilotos" class="oculto">
@@ -146,7 +143,6 @@
             <p>Resumen general de la base rebelde</p>
 
             <div id="resumenDashboard">
-
                 <div class="bloqueDashboard">
                     <h3>Naves</h3>
                     <p id="totalNaves"></p>
@@ -177,14 +173,11 @@
 
                 <div class="bloqueDashboard">
                     <h3>Progreso de misiones</h3>
-
                     <div id="barraFondo">
                         <div id="barraProgreso"></div>
                     </div>
-
                     <p id="porcentajeMisiones"></p>
                 </div>
-
             </div>
         </section>
     </main>
