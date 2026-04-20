@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
-/* Cabecera del documento (información técnica no visible) */
 <head>
-    /* Define la codificación de caracteres para aceptar tildes y ñ */
     <meta charset="UTF-8">
-    
-    /* Configura la visualizacion correcta en dispositivos móviles (responsivo) */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    /* Título que aparecerá en la pestaña del navegador */
     <title>Star Wars</title>
-    
-    /* Enlace al archivo de estilos CSS externo */
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="Styles.css">
 </head>
-
-/* Cuerpo del documento (todo el contenido visible) */
 <body>
 
-    /* Encabezado principal de la página con el título y menú */
     <header id="cabecera">
         <h1>ALIANZA REBELDE</h1>
-        /* Menú de navegación principal */
         <nav>
             <ul>
-                /* Enlaces con IDs para ser controlados mediante JavaScript */
                 <li><a href="#" id="hangarEnl">Hangar</a></li>
                 <li><a href="#" id="pilotosEnl">Pilotos</a></li>
                 <li><a href="#" id="misionesEnl">Misiones</a></li>
@@ -34,41 +20,33 @@
         </nav>
     </header>
     
-    /* Contenedor principal para las diferentes secciones de la app */
     <main>
-        /* SECCION 1: HANGAR - Visualizacion de naves */
         <section id="hangar">
             <h2>Hangar de naves</h2>
             <p>Catálogo de la Alianza Rebelde</p>
-
-            /* Controles para filtrar y buscar naves */
+            
+            <!--Controles para filtrar y buscar naves-->
             <div class="controles-hangar">
-                /* Cuadro de búsqueda de texto */
+                <!--Cuadro de busqueda de texto-->
                 <input type="text" id="buscarNave" placeholder="Buscar nave">
 
-                /* Menu desplegable para filtrar por tipo de nave */
+                <!--Menu desplegable para filtrar por tipo de nave-->
                 <select id="filtroTipo">
                     <option value="">Todos los tipos</option>
                 </select>
-
-                /* Boton para que se ordene por velocidad */
+                <!--Boton para que se ordene por velocidad-->
                 <button id="ordenarBtn">Ordenar velocidad</button>
             </div>
-
-            /* Texto dinamico que mostrara la cantidad de naves */
+            <!--Texto dinamico que mostrara la cantidad de naves-->
             <p id="contador">Mostrando 0 naves</p>
 
-            /* Contenedor vacio donde JavaScript inyectara las naves */
             <div id="listaNaves"></div>
         </section>
-
-        /* SECCION 2: PILOTOS - Gestion y registro (Oculta por defecto) */
         <section id="pilotos" class="oculto">
             <h2>Registro de pilotos</h2>
             <a>Gestion del personal de combate</a>
             <br><br>
-            
-            /* Formulario para dar de alta nuevos pilotos */
+            <!-- Form sirve para poner los formularios-->
             <form id="formularioPiloto">
                 <h3>Añadir nuevo piloto</h3>
                 Nombre
@@ -76,19 +54,18 @@
                 Rango
                 <input id="rangoPil" type="text" placeholder="Rango">
                 Nave
-                /* El JS llenará este select con las naves disponibles */
-                <select id="select" type="text"></select>
+                <select id="select" type="text">
+                </select>
                 Victorias en combate
                 <input id="victoriasPil" type="number" min="1">
                 Estado
-                <select id="Estado" type="text"></select>
+                <select id="Estado" type="text">
+                </select>
                 
                 <br>
-                /* Botón de accion para guardar el piloto */
                 <button type="button" id="agregar">Agregar</button>
             </form>
             
-            /* Cabecera visual para la lista de pilotos */
             <div id="encabezado-pilotos">
                 <span class="listaNombre">Nombre</span>
                 <span class="listaRango">Rango</span>
@@ -98,33 +75,30 @@
                 <span class="listaAcciones">Acciones</span>
             </div>
 
-            /* Lista donde se añadiran los pilotos dinámicamente */
             <ul id="lista"></ul>
         </section>
         
-        /* SECCION 3: MISIONES - Sistema Kanban de tareas */
         <section id="misiones" class="oculto">
             <h2>Panel de misiones</h2>
             <a>Tablero de operaciones</a>
             <br>
-            /* Filtro rapido para ver misiones por dificultad */
             <div id="filtro">
                 <select id="filtroDificultad">
-                    <option>Todas</option>
-                    <option>Facil</option>
-                    <option>Media</option>
-                    <option>Dificil</option>
-                    <option>Suicida</option>
+                <option>Todas</option>
+                <option>Facil</option>
+                <option>Media</option>
+                <option>Dificil</option>
+                <option>Suicida</option>
                 </select>
             </div>
-            /* Formulario para crear nuevas misiones */
             <form id="formularioMisiones">
                 <h3>Nueva mision</h3>
                 Nombre de la mision
                 <input id="nombreMin" type="text" placeholder="Pon el nombre de la mision">
 
                 Piloto asignado
-                <select id="selectPil"></select> 
+                <select id="selectPil">
+                </select> 
 
                 Dificultad
                 <select id="selectDi"></select>
@@ -140,9 +114,7 @@
 
             <br><br>
 
-            /* Estructura de columnas (Kanban) para el estado de misiones */
             <div class="kanban">
-                /* Columna: Pendientes */
                 <div class="columnas">
                     <div class="columnaCab">
                         <h3>Pendientes</h3>
@@ -151,7 +123,6 @@
                     <div id="listPen" class="listMin"></div>
                 </div>
                 
-                /* Columna: En curso */
                 <div class="columnas">
                     <div class="columnaCab">
                         <h3>En curso</h3>
@@ -160,7 +131,6 @@
                     <div id="lisCur" class="listMin"></div>
                 </div>
 
-                /* Columna: Completadas */
                 <div class="columnas">
                     <div class="columnaCab">
                         <h3>Completadas</h3>
@@ -171,12 +141,11 @@
             </div>
         </section>
 
-        /* SECCION 4: DASHBOARD - Estadisticas generales */
         <section id="dashboard" class="oculto">
             <h2>Mando de la Alianza</h2>
             <p>Resumen general de la base rebelde</p>
 
-            /* Rejilla de tarjetas con datos estadisticos */
+            <!--Rejilla de tarjetas con datos-->
             <div id="resumenDashboard">
                 <div class="bloqueDashboard">
                     <h3>Naves</h3>
@@ -206,7 +175,7 @@
                     <p id="naveRapida"></p>
                 </div>
 
-                /* Visualizacion gráfica del progreso mediante una barra */
+                <!--Visualizacion del progreso mediante una barra-->
                 <div class="bloqueDashboard">
                     <h3>Progreso de misiones</h3>
                     <div id="barraFondo">
@@ -218,12 +187,11 @@
         </section>
     </main>
 
-    /* Pie de pagina con     creditos */
     <footer>
         <p>Que la fuerza te acompañe • Proyecto DAW 2026</p>
     </footer>
 
-    /* Carga del archivo JavaScript que da vida a toda la funcionalidad */
     <script src="main.js"></script>
 </body>
 </html>
+
