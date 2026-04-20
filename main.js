@@ -44,6 +44,128 @@ dashboardEnl.addEventListener("click", function() {
 });
 
 
+//PARTE DE LA SECCION 1
+let navesHangar = [
+  { nombre: "Halcón Milenario", tipo: "transporte", velocidad: 80, tripulacion: 4, estado: "operativa", imagen: "El-Halcón-Milenario-Star-Wars.jpg" },
+  { nombre: "Ala-X", tipo: "caza", velocidad: 100, tripulacion: 1, estado: "operativa", imagen: "Ala-x.jpg" },
+  { nombre: "Ala-A", tipo: "caza", velocidad: 120, tripulacion: 1, estado: "en reparación", imagen: "Ala-a.jpg" },
+  { nombre: "Ala-B", tipo: "caza", velocidad: 90, tripulacion: 1, estado: "operativa", imagen: "Ala-B.jpg" },
+  { nombre: "Ala-Y", tipo: "bombardero", velocidad: 80, tripulacion: 2, estado: "en reparación", imagen: "Ala-y.jpg" },
+  { nombre: "El Espíritu", tipo: "transporte", velocidad: 85, tripulacion: 6, estado: "operativa", imagen: "El-espectro.jpg" },
+  { nombre: "Flota Alianza Rebelde", tipo: "transporte", velocidad: 60, tripulacion: 5, estado: "operativa", imagen: "Flota-Alianza-Rebelde.jpg" },
+  { nombre: "Transporte GR-75", tipo: "transporte", velocidad: 50, tripulacion: 6, estado: "destruida", imagen: "Transporte-Rebelde.jpg" },
+  { nombre: "Crucero Mon Calamari", tipo: "crucero", velocidad: 60, tripulacion: 5400, estado: "operativa", imagen: "MCLiberty.jpg" },
+  { nombre: "Fragata Nebulon-B", tipo: "fragata", velocidad: 40, tripulacion: 850, estado: "operativa", imagen: "Fragata-Nebulon-B.jpg" },
+  { nombre: "Corbeta Corelliana", tipo: "corbeta", velocidad: 70, tripulacion: 165, estado: "operativa", imagen: "Corbeta-Corelliana.jpg" }
+];
+
+// Recoger elementos del DOM
+let buscarNave = document.getElementById("buscarNave");
+let filtroTipo = document.getElementById("filtroTipo");
+let ordenarBtn = document.getElementById("ordenarBtn");
+let listaNaves = document.getElementById("listaNaves");
+let contador = document.getElementById("contador");
+
+let ascendente = true;
+
+// Función para cargar tipos únicos en el select
+function cargarTipos() {
+    let opciones = "<option value=''>Todos los tipos</option>";
+    
+    // Creamos un array con solo los tipos y filtramos duplicados
+    let tiposSinDuplicados = [];
+    navesHangar.forEach(nave => {
+        if (!tiposSinDuplicados.includes(nave.tipo)) {
+            tiposSinDuplicados.push(nave.tipo);
+        }
+    });
+
+    // Generamos las opciones del select
+
+    /* Recorre el array de tipos únicos para crear las etiquetas de opción del selector */
+    tiposSinDuplicados.forEach(tipo => {
+        /* Crea un string HTML <option>. charAt(0).toUpperCase() pone la primera letra en mayúscula para que quede mejor visualmente */
+        opciones += `<option value="${tipo}">${tipo.charAt(0).toUpperCase() + tipo.slice(1)}</option>`;
+    });
+     /* Inserta todas las opciones generadas dentro del elemento HTML del select de filtrado */
+    filtroTipo.innerHTML = opciones;
+}
+
+/* Función encargada de renderizar las naves en la página según los filtros aplicados */
+function mostrarNaves() {
+     /* Limpia el contenedor de la lista de naves para que no se dupliquen al filtrar o buscar */
+    listaNaves.innerHTML = "";
+
+    /* Obtiene el texto del buscador (en minúsculas para que no importe si el usuario usa Mayúsculas) */
+    let texto = buscarNave.value.toLowerCase();
+    /* Obtiene el tipo de nave seleccionado en el menú desplegable */
+    let tipoSeleccionado = filtroTipo.value;
+    /* Variable para llevar la cuenta de cuántas naves cumplen los requisitos del filtro */
+    let total = 0;
+
+    /* Bucle que recorre toda la base de datos de naves (array navesHangar) */
+    for (let i = 0; i < navesHangar.length; i++) {
+         /* Guarda la nave actual en una variable para facilitar el acceso a sus propiedades */
+        let nave = navesHangar[i];
+
+        /* Condicional de filtrado: comprueba si el nombre incluye el texto buscado Y si el tipo coincide (o está en 'Todos') */
+        if (
+            nave.nombre.toLowerCase().includes(texto) &&
+            (tipoSeleccionado === "" || nave.tipo === tipoSeleccionado)
+        ) {
+            /* Crea un nuevo elemento div en memoria para representar la tarjeta de la nave */
+            let div = document.createElement("div");
+
+            /* Asigna una clase CSS al div para que tome los estilos definidos en Style.css */
+            div.className = "tarjeta-nave"; // Clase para darle estilo en CSS
+
+            /* Define el contenido interno del div usando Template Literals para insertar los datos de la nave */
+            div.innerHTML = `
+                <img src="${nave.imagen}" alt="${nave.nombre}" style="width:100px; height:auto; display:block;">
+                <h3>${nave.nombre}</h3>
+                <p><strong>Tipo:</strong> ${nave.tipo}</p>
+                <p><strong>Velocidad:</strong> ${nave.velocidad} MGLT</p>
+                <p><strong>Tripulación:</strong> ${nave.tripulacion}</p>
+                <p><strong>Estado:</strong> ${nave.estado}</p>
+                <hr>
+            `;
+
+            /* Añade el div recién creado al contenedor principal de la lista en el HTML */
+            listaNaves.appendChild(div);
+
+            /* Incrementa el contador de naves visibles */
+            total++;
+        }
+    }
+
+    /* Actualiza el texto del contador en la pantalla para informar al usuario cuántas naves se están mostrando */
+    contador.textContent = "Mostrando " + total + " naves";
+}
+
+// --- Eventos ---
+
+// Buscador en tiempo real
+buscarNave.addEventListener("input", mostrarNaves);
+
+// Filtro por tipo
+filtroTipo.addEventListener("change", mostrarNaves);
+
+// Ordenar por velocidad
+ordenarBtn.addEventListener("click", function () {
+    if (ascendente) {
+        navesHangar.sort((a, b) => a.velocidad - b.velocidad);
+    } else {
+        navesHangar.sort((a, b) => b.velocidad - a.velocidad);
+    }
+
+    ascendente = !ascendente; // Invertimos para el próximo clic
+    mostrarNaves();
+});
+
+// Iniciar hangar
+cargarTipos();
+mostrarNaves();
+
 //PARTE DE LA SECCION 2
 /*Para crear el formulario de los pilotos*/
 let nombre = document.getElementById("nombrePil");
@@ -163,19 +285,14 @@ function anadidosLista() {
 /*Se hara un inner html donde se modificar las opciones y luego seleccionarlas con un switch*/
 /*El select dinamico de naves*/
 /*Se necesita el array de naves completo*/
-let naves = [
-    { nombre: "X-Wing", tipo: "Caza" },
-    { nombre: "A-Wing", tipo: "Caza" },
-    { nombre: "Halcón Milenario", tipo: "Transporte" }
-];
 
 let selectNave = document.getElementById("select");
 /*Crea las opciones de dentro del select esto es la opcion de selecciona nave*/
 let opciones = "<option value=''>Selecciona nave</option>";
 
 /*El for lo que hace es recorrer el array completo*/
-for (let i = 0; i < naves.length; i++) {
-    opciones += "<option value='" + naves[i].nombre + "'>" + naves[i].nombre + "</option>";
+for (let i = 0; i < navesHangar.length; i++) {
+    opciones += "<option value='" + navesHangar[i].nombre + "'>" + navesHangar[i].nombre + "</option>";
     /*Para cada nave se añade una nueva opcion*/
 }
 
@@ -441,3 +558,165 @@ misionesActivas();
 numeroMin();
 
 
+//PARTE DE LA SECCION 4
+//* Función que calcula y actualiza todas las estadísticas generales en la interfaz */
+function actualizarDashboard() {
+
+    // -------- NAVES --------
+
+    /* Muestra la cantidad total de naves contando el tamaño del array navesHangar */
+    document.getElementById("totalNaves").textContent =
+        "Total de naves: " + navesHangar.length;
+
+    /* Inicializa contadores para los diferentes estados de las naves */
+    let operativas = 0;
+    let reparacion = 0;
+    let destruidas = 0;
+
+    /* Recorre el array de naves para clasificar cada una según su estado */
+    for (let i = 0; i < navesHangar.length; i++) {
+        /* Convierte el estado a minúsculas para evitar errores de comparación */
+        let estadoActual = navesHangar[i].estado.toLowerCase();
+
+        /* Suma 1 al contador correspondiente según el estado de la nave actual */
+        if (navesHangar[i].estado === "operativa") {
+            operativas++;
+        }
+        else if (navesHangar[i].estado === "en reparación") {
+            reparacion++;
+        }
+        else if (navesHangar[i].estado === "destruida") {
+            destruidas++;
+        }
+    }
+
+    /* Imprime el resumen de estados de naves en el elemento HTML correspondiente */
+    document.getElementById("estadoNaves").textContent =
+        "Operativas: " + operativas +
+        " | Reparación: " + reparacion +
+        " | Destruidas: " + destruidas;
+
+
+    // -------- PILOTOS --------
+
+    /* Muestra el total de pilotos registrados en la aplicación */
+    document.getElementById("totalPilotos").textContent =
+        "Total de pilotos: " + pilotosArray.length;
+
+    /* Inicializa contadores para los estados de salud/disponibilidad de los pilotos */
+    let activos = 0;
+    let heridos = 0;
+    let kia = 0;/*Fallecido*/
+
+    /* Recorre el array de pilotos y aumenta los contadores según su estado */
+    for (let i = 0; i < pilotosArray.length; i++) {
+        if (pilotosArray[i].estado === "Activo") {
+            activos++;
+        }
+        else if (pilotosArray[i].estado === "Herido") {
+            heridos++;
+        }
+        else if (pilotosArray[i].estado === "KIA") {
+            kia++;
+        }
+    }
+
+    /* Refleja los resultados en el texto del dashboard */
+    document.getElementById("estadoPilotos").textContent =
+        "Activos: " + activos +
+        " | Heridos: " + heridos +
+        " | KIA: " + kia;
+
+
+    // -------- MISIONES --------
+
+    /* Muestra cuántas misiones existen en total en el sistema */
+    document.getElementById("totalMisiones").textContent =
+        "Total de misiones: " + misionesArray.length;
+
+    /* Inicializa contadores para las fases del tablero Kanban */
+    let pendientes = 0;
+    let curso = 0;
+    let completadas = 0;
+
+    /* Bucle para contar cuántas misiones hay en cada fase del proceso */
+    for (let i = 0; i < misionesArray.length; i++) {
+        if (misionesArray[i].estado === "Pendiente") {
+            pendientes++;
+        }
+        else if (misionesArray[i].estado === "En curso") {
+            curso++;
+        }
+        else if (misionesArray[i].estado === "Completada") {
+            completadas++;
+        }
+    }
+
+    /* Actualiza la información visual de las misiones */
+    document.getElementById("estadoMisiones").textContent =
+        "Pendientes: " + pendientes +
+        " | En curso: " + curso +
+        " | Completadas: " + completadas;
+
+
+    // -------- MEJOR PILOTO --------
+
+    /* Asume inicialmente que el primer piloto es el mejor para empezar a comparar */
+    let mejor = pilotosArray[0];
+
+    /* Compara las victorias de cada piloto con el que consideramos "mejor" hasta el momento */
+    for (let i = 1; i < pilotosArray.length; i++) {
+        if (
+            Number(pilotosArray[i].victorias) >
+            Number(mejor.victorias)
+        ) {
+            /* Si encontramos a alguien con más victorias, actualizamos la variable */
+            mejor = pilotosArray[i];
+        }
+    }
+
+    /* Si el array no estaba vacío, muestra el nombre y victorias del piloto líder */
+    if (mejor) {
+        document.getElementById("mejorPiloto").textContent =
+            mejor.nombre + " - " + mejor.victorias + " victorias";
+    }
+
+
+    // -------- NAVE MÁS RÁPIDA --------
+
+    /* Aplica la misma lógica de comparación pero usando la propiedad 'velocidad' de las naves */
+    let rapida = navesHangar[0];
+
+    for (let i = 1; i < navesHangar.length; i++) {
+        if (navesHangar[i].velocidad > rapida.velocidad) {
+            rapida = navesHangar[i];
+        }
+    }
+
+    /* Muestra la nave con mayor número de megaluz (MGLT) */
+    document.getElementById("naveRapida").textContent =
+        rapida.nombre + " - " + rapida.velocidad + " megaluz";
+
+
+    // -------- BARRA DE PROGRESO --------
+
+    /* Variable para guardar el resultado del cálculo matemático del porcentaje */
+    let porcentaje = 0;
+
+    /* Solo calcula el porcentaje si hay misiones, para evitar errores de división por cero */
+    if (misionesArray.length > 0) {
+        /* Regla de tres: (Misiones completadas * 100) / Total de misiones */
+        porcentaje =
+            (completadas * 100) / misionesArray.length;
+    }
+
+    /* Ajusta el ancho (width) de la barra de progreso en el CSS de forma dinámica */
+    document.getElementById("barraProgreso").style.width =
+        porcentaje + "%";
+
+    /* Muestra el número redondeado del porcentaje de éxito de la Alianza */
+    document.getElementById("porcentajeMisiones").textContent =
+        Math.round(porcentaje) + "% completado";
+}
+/* Ejecuta la función al cargar el script para que el dashboard no aparezca vacío al inicio */
+actualizarDashboard();
