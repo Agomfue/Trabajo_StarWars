@@ -22,7 +22,25 @@
     
     <main>
         <section id="hangar">
+            <h2>Hangar de naves</h2>
+            <p>Catálogo de la Alianza Rebelde</p>
 
+            <!-- buscador -->
+            <input type="text" id="buscarNave" placeholder="Buscar nave">
+
+            <!-- filtro por tipo -->
+            <select id="filtroTipo">
+                <option value="">Todos los tipos</option>
+            </select>
+
+            <!-- botón ordenar -->
+            <button id="ordenarBtn">Ordenar velocidad</button>
+
+            <!-- contador -->
+            <p id="contador">Mostrando 0 naves</p>
+
+            <!-- aquí aparecerán las tarjetas -->
+            <div id="listaNaves"></div>
         </section>
         <section id="pilotos" class="oculto">
             <h2>Registro de pilotos</h2>
@@ -124,7 +142,50 @@
         </section>
 
         <section id="dashboard" class="oculto">
+            <h2>Mando de la Alianza</h2>
+            <p>Resumen general de la base rebelde</p>
 
+            <div id="resumenDashboard">
+
+                <div class="bloqueDashboard">
+                    <h3>Naves</h3>
+                    <p id="totalNaves"></p>
+                    <p id="estadoNaves"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Pilotos</h3>
+                    <p id="totalPilotos"></p>
+                    <p id="estadoPilotos"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Misiones</h3>
+                    <p id="totalMisiones"></p>
+                    <p id="estadoMisiones"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Mejor piloto</h3>
+                    <p id="mejorPiloto"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Nave más rápida</h3>
+                    <p id="naveRapida"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Progreso de misiones</h3>
+
+                    <div id="barraFondo">
+                        <div id="barraProgreso"></div>
+                    </div>
+
+                    <p id="porcentajeMisiones"></p>
+                </div>
+
+            </div>
         </section>
     </main>
 
