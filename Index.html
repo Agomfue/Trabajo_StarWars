@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars - Alianza Rebelde</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header id="cabecera">
+        <h1>ALIANZA REBELDE</h1>
+        <nav>
+            <ul>
+                <li><a href="#" id="hangarEnl">Hangar</a></li>
+                <li><a href="#" id="pilotosEnl">Pilotos</a></li>
+                <li><a href="#" id="misionesEnl">Misiones</a></li>
+                <li><a href="#" id="dashboardEnl">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="hangar">
+            <h2>Hangar de naves</h2>
+            <p>Catálogo de la Alianza Rebelde</p>
+
+            <div class="controles-hangar">
+                <input type="text" id="buscarNave" placeholder="Buscar nave">
+
+                <select id="filtroTipo">
+                    <option value="">Todos los tipos</option>
+                </select>
+
+                <button id="ordenarBtn">Ordenar velocidad</button>
+            </div>
+
+            <p id="contador">Mostrando 0 naves</p>
+
+            <div id="listaNaves"></div>
+        </section>
+
+        <section id="pilotos" class="oculto">
+            <h2>Registro de pilotos</h2>
+            <p>Gestión del personal de combate</p>
+            
+            <form id="formularioPiloto">
+                <h3>Añadir nuevo piloto</h3>
+                <label>Nombre</label>
+                <input id="nombrePil" type="text" placeholder="Nombre">
+                
+                <label>Rango</label>
+                <input id="rangoPil" type="text" placeholder="Rango">
+                
+                <label>Nave</label>
+                <select id="select"></select>
+                
+                <label>Victorias en combate</label>
+                <input id="victoriasPil" type="number" min="0">
+                
+                <label>Estado</label>
+                <select id="Estado"></select>
+                
+                <button type="button" id="agregar">Agregar</button>
+            </form>
+            
+            <div id="encabezado-pilotos">
+                <span class="listaNombre">Nombre</span>
+                <span class="listaRango">Rango</span>
+                <span class="listaNave">Nave</span>
+                <span class="listaVictorias">Victorias</span>
+                <span class="listaEstado">Estado</span>
+                <span class="listaAcciones">Acciones</span>
+            </div>
+
+            <ul id="lista"></ul>
+        </section>
+        
+        <section id="misiones" class="oculto">
+            <h2>Panel de misiones</h2>
+            <p>Tablero de operaciones</p>
+
+            <div id="filtro">
+                <select id="filtroDificultad">
+                    <option value="Todas">Todas</option>
+                    <option value="Facil">Fácil</option>
+                    <option value="Media">Media</option>
+                    <option value="Dificil">Difícil</option>
+                    <option value="Suicida">Suicida</option>
+                </select>
+            </div>
+
+            <form id="formularioMisiones">
+                <h3>Nueva misión</h3>
+                <label>Nombre de la misión</label>
+                <input id="nombreMin" type="text" placeholder="Nombre de la misión">
+
+                <label>Piloto asignado</label>
+                <select id="selectPil"></select> 
+
+                <label>Dificultad</label>
+                <select id="selectDi"></select>
+
+                <label>Fecha inicio</label>
+                <input id="fechaMision" type="date">
+
+                <label>Descripción</label>
+                <textarea id="descripcionMin" rows="3"></textarea>
+
+                <button type="button" id="crearMision">Crear misión</button>
+            </form>
+
+            <div class="kanban">
+                <div class="columnas">
+                    <div class="columnaCab">
+                        <h3>Pendientes</h3>
+                        <span id="contadorPen" class="contador">0</span>
+                    </div>
+                    <div id="listPen" class="listMin"></div>
+                </div>
+                
+                <div class="columnas">
+                    <div class="columnaCab">
+                        <h3>En curso</h3>
+                        <span id="contadorCur" class="contador">0</span>
+                    </div>
+                    <div id="lisCur" class="listMin"></div>
+                </div>
+
+                <div class="columnas">
+                    <div class="columnaCab">
+                        <h3>Completadas</h3>
+                        <span id="contadorCom" class="contador">0</span>
+                    </div>
+                    <div id="lisCom" class="listMin"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="oculto">
+            <h2>Mando de la Alianza</h2>
+            <p>Resumen general de la base rebelde</p>
+
+            <div id="resumenDashboard">
+                <div class="bloqueDashboard">
+                    <h3>Naves</h3>
+                    <p id="totalNaves"></p>
+                    <p id="estadoNaves"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Pilotos</h3>
+                    <p id="totalPilotos"></p>
+                    <p id="estadoPilotos"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Misiones</h3>
+                    <p id="totalMisiones"></p>
+                    <p id="estadoMisiones"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Mejor piloto</h3>
+                    <p id="mejorPiloto"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Nave más rápida</h3>
+                    <p id="naveRapida"></p>
+                </div>
+
+                <div class="bloqueDashboard">
+                    <h3>Progreso de misiones</h3>
+                    <div id="barraFondo">
+                        <div id="barraProgreso"></div>
+                    </div>
+                    <p id="porcentajeMisiones"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Que la fuerza te acompañe • Proyecto DAW 2026</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
